@@ -34,8 +34,8 @@ shared/         ← Placeholder for imported template compatibility
 **DO NOT** store images, videos, or large assets in `client/public/` or `client/src/assets/`. Local media files will cause deployment timeouts.
 
 **Required workflow:**
-1. Upload assets using the CLI: `manus-upload-file --webdev path/to/image.png`
-2. Use the returned storage path directly in your code: `<img src="/manus-storage/image_a1b2c3d4.png" />`
+1. Upload assets using the CLI: `upload-file --webdev path/to/image.png`
+2. Use the returned storage path directly in your code: `<img src="/storage/image_a1b2c3d4.png" />`
 3. Store the original local file in `/home/ubuntu/webdev-static-assets/` (outside the project directory)
 
 Only small configuration files like `favicon.ico`, `robots.txt`, and `manifest.json` belong in `client/public/`.
@@ -118,12 +118,12 @@ When implementing features that match these categories, MUST evaluate the compon
 
 ## 🗺️ Maps Integration
 
-**CRITICAL: The Manus proxy provides FULL access to ALL Google Maps features** - including advanced drawing, heatmaps, Street View, all layers, Places API, etc. Do NOT ask users for Google Map API keys - authentication is automatic.
+**CRITICAL: The proxy provides FULL access to ALL Google Maps features** - including advanced drawing, heatmaps, Street View, all layers, Places API, etc. Do NOT ask users for Google Map API keys - authentication is automatic.
 
 **Implementation:**
 - Frontend: Import MapView from `client/src/components/Map.tsx` and initialize ANY Google Maps service (geocoding, directions, places, drawing, visualization, geometry, etc.) in the onMapReady callback. ALL Google Maps JavaScript API features work directly in the browser.
 
-NEVER use external map libraries or request API keys from users - the Manus proxy handles everything automatically with no feature limitations.
+NEVER use external map libraries or request API keys from users - the proxy handles everything automatically with no feature limitations.
 
 ---
 
@@ -224,7 +224,7 @@ NEVER use external map libraries or request API keys from users - the Manus prox
     "tw-animate-css": "^1.4.0",
     "typescript": "5.6.3",
     "vite": "^7.1.7",
-    "vite-plugin-manus-runtime": "^0.0.57",
+    "vite-plugin-runtime": "^0.0.57",
     "vitest": "^2.1.4"
   },
   "packageManager": "pnpm@10.4.1+sha512.c753b6c3ad7afa13af388fa6d808035a008e30ea9993f58c6663e2bc5ff21679aa834db094987129aa4d488b86df57f7b634981b2f827cdcacc698cc0cfb88af",
