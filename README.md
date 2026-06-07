@@ -127,7 +127,7 @@ NEVER use external map libraries or request API keys from users - the proxy hand
 
 ---
 
-## ✅ Launch Checklist
+##  Launch Checklist
 - [ ] UI layout and navigation structure correct, all image src valid.
 - [ ] Success + error paths verified in the browser
 
@@ -581,11 +581,11 @@ const { data } = trpc.items.getByIds.useQuery({
 
 **Correct approach:** Stabilize references with useState/useMemo
 ```tsx
-// ✅ Good: Initialize once with useState
+//  Good: Initialize once with useState
 const [date] = useState(() => new Date());
 const { data } = trpc.items.getByDate.useQuery({ date });
 
-// ✅ Good: Memoize complex inputs
+//  Good: Memoize complex inputs
 const ids = useMemo(() => [1, 2, 3], []);
 const { data } = trpc.items.getByIds.useQuery({ ids });
 ```
@@ -610,12 +610,12 @@ const { data } = trpc.items.getByIds.useQuery({ ids });
 
 **Quick reference:**
 ```tsx
-// ✅ Theme + CSS alignment
+//  Theme + CSS alignment
 <ThemeProvider defaultTheme="dark">  {/* Must match .dark in index.css */}
   <div className="bg-background text-foreground">...</div>
 </ThemeProvider>
 
-// ✅ Required class pairs
+//  Required class pairs
 <div className="bg-popover text-popover-foreground">...</div>
 <div className="bg-card text-card-foreground">...</div>
 <div className="bg-accent text-accent-foreground">...</div>
@@ -627,7 +627,7 @@ const { data } = trpc.items.getByIds.useQuery({ ids });
 **Solution:** Pass children directly to Link—it already renders an `<a>` internally.
 ```tsx
 // ❌ Bad: <Link><a>...</a></Link> or <a><a>...</a></a>
-// ✅ Good: <Link>...</Link> or just <a>...</a>
+//  Good: <Link>...</Link> or just <a>...</a>
 ```
 ### Empty `Select.Item` values
 

@@ -1,5 +1,17 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { AlertCircle, CheckCircle, Lightbulb, Zap, Clock } from 'lucide-react';
+import { 
+  AlertCircle, 
+  CheckCircle, 
+  Lightbulb, 
+  Zap, 
+  Clock, 
+  Sunrise, 
+  Sun, 
+  Sunset, 
+  Moon, 
+  Droplets, 
+  Thermometer 
+} from 'lucide-react';
 import { getRecommendedAction, CROP_THRESHOLDS } from '@/lib/alertEngine';
 
 interface RecommendedActionsProps {
@@ -48,11 +60,33 @@ export default function RecommendedActions({
     return <CheckCircle className="w-4 h-4 text-success" />;
   };
 
-  const getTimeOfDayLabel = (hour: number): string => {
-    if (hour >= 5 && hour < 12) return '🌅 Morning';
-    if (hour >= 12 && hour < 17) return '☀️ Afternoon';
-    if (hour >= 17 && hour < 21) return '🌆 Evening';
-    return '🌙 Night';
+  const getTimeOfDayLabel = (hour: number): React.ReactNode => {
+    if (hour >= 5 && hour < 12) {
+      return (
+        <span className="flex items-center gap-1">
+          <Sunrise className="w-3.5 h-3.5" /> Morning
+        </span>
+      );
+    }
+    if (hour >= 12 && hour < 17) {
+      return (
+        <span className="flex items-center gap-1">
+          <Sun className="w-3.5 h-3.5" /> Afternoon
+        </span>
+      );
+    }
+    if (hour >= 17 && hour < 21) {
+      return (
+        <span className="flex items-center gap-1">
+          <Sunset className="w-3.5 h-3.5" /> Evening
+        </span>
+      );
+    }
+    return (
+      <span className="flex items-center gap-1">
+        <Moon className="w-3.5 h-3.5" /> Night
+      </span>
+    );
   };
 
   return (
@@ -72,11 +106,13 @@ export default function RecommendedActions({
       <div className="bg-muted/50 rounded-lg p-3 text-sm">
         <p className="font-medium text-foreground mb-1">{cropType}</p>
         <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">
-          <div>
-            💧 Moisture: {threshold?.minMoisture}–{threshold?.maxMoisture}%
+          <div className="flex items-center gap-1">
+            <Droplets className="w-3.5 h-3.5" /> 
+            Moisture: {threshold?.minMoisture}–{threshold?.maxMoisture}%
           </div>
-          <div>
-            🌡️ Temp: {threshold?.optimalTemp.min}–{threshold?.optimalTemp.max}°C
+          <div className="flex items-center gap-1">
+            <Thermometer className="w-3.5 h-3.5" /> 
+            Temp: {threshold?.optimalTemp.min}–{threshold?.optimalTemp.max}°C
           </div>
         </div>
       </div>
@@ -101,8 +137,12 @@ export default function RecommendedActions({
                     {item.action}
                   </p>
                   <div className="flex gap-3 mt-2 text-xs text-muted-foreground">
-                    <span>💧 {item.moisture}%</span>
-                    <span>🌡️ {item.temperature.toFixed(1)}°C</span>
+                    <span className="flex items-center gap-1">
+                      <Droplets className="w-3.5 h-3.5" /> {item.moisture}%
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Thermometer className="w-3.5 h-3.5" /> {item.temperature.toFixed(1)}°C
+                    </span>
                   </div>
                 </div>
               </motion.div>
@@ -127,7 +167,9 @@ export default function RecommendedActions({
 
       {/* Irrigation Timing Guide */}
       <div className="bg-info/10 border border-info/30 rounded-lg p-3 text-xs text-muted-foreground space-y-1">
-        <p className="font-medium text-foreground">💡 Irrigation Timing Tips</p>
+        <p className="font-medium text-foreground flex items-center gap-1">
+          <Lightbulb className="w-3.5 h-3.5" /> Irrigation Timing Tips
+        </p>
         <ul className="space-y-1 ml-4 list-disc">
           <li>6–10am: Ideal irrigation window (cool, low evaporation)</li>
           <li>10am–2pm: Avoid irrigation (peak heat, high evaporation)</li>

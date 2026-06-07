@@ -1,5 +1,3 @@
-'use client';
-
 import { motion, AnimatePresence } from 'framer-motion';
 import { AlertCircle, Droplet, Leaf, TrendingUp, Wind, Sun, Thermometer, Activity, Play, Pause, RotateCcw, Bell, Zap } from 'lucide-react';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, LineController, Title, Tooltip, Legend, Filler } from 'chart.js';
@@ -13,16 +11,6 @@ import { generateAllZonesHistoricalData, getMoistureAtHour } from '@/lib/histori
 
 ChartJS.register(LineController, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
-/* 
-  AgriConnect Dashboard v3 — Smart Farm IoT Platform
-  Design: Techno-Organic Minimalism with real-time sensor simulation
-  
-  CENTRAL STATE MANAGEMENT:
-  - Single source of truth for all dashboard state
-  - Unified data flow: crop change → all components update consistently
-  - Proper cleanup for all timers and chart instances
-  - Optimized re-renders with useCallback and useMemo
-*/
 
 interface Crop {
   name: string;
@@ -88,7 +76,7 @@ const CROPS: Record<string, Crop> = {
       { id: '2', severity: 'warning', message: 'High humidity — fungal risk elevated', time: '1h ago' },
       { id: '3', severity: 'info', message: 'Irrigation Zone A completed — 18 min cycle', time: '3h ago' },
     ],
-    recommendations: ['💧 Increase irrigation in Zone C', '🌬️ Improve ventilation — humidity at 71%', '✅ Flowering stage on schedule'],
+    recommendations: ['💧 Increase irrigation in Zone C', '🌬️ Improve ventilation — humidity at 71%', '🟢 Flowering stage on schedule'],
     waterSaved: '142 L',
     yieldForecast: '4.2 t/acre',
     nextIrrigation: '2h 14m',
@@ -111,7 +99,7 @@ const CROPS: Record<string, Crop> = {
       { id: '1', severity: 'warning', message: 'Humidity above optimal range (80%)', time: '5m ago' },
       { id: '2', severity: 'info', message: 'Zone D irrigation scheduled for 3h', time: '1h ago' },
     ],
-    recommendations: ['🌬️ Increase air circulation', '💧 Maintain 70-75% soil moisture', '✅ Vegetative stage progressing well'],
+    recommendations: ['🌬️ Increase air circulation', '💧 Maintain 70-75% soil moisture', '🟢 Vegetative stage progressing well'],
     waterSaved: '98 L',
     yieldForecast: '3.8 t/acre',
     nextIrrigation: '3h 45m',
@@ -133,7 +121,7 @@ const CROPS: Record<string, Crop> = {
     alerts: [
       { id: '1', severity: 'info', message: 'Optimal conditions for fruit development', time: 'now' },
     ],
-    recommendations: ['🌡️ Maintain 28-32°C for optimal fruiting', '💧 Increase irrigation frequency', '✅ Excellent fruiting conditions'],
+    recommendations: ['🌡️ Maintain 28-32°C for optimal fruiting', '💧 Increase irrigation frequency', '🟢 Excellent fruiting conditions'],
     waterSaved: '156 L',
     yieldForecast: '2.1 t/acre',
     nextIrrigation: '1h 30m',
@@ -155,7 +143,7 @@ const CROPS: Record<string, Crop> = {
     alerts: [
       { id: '1', severity: 'warning', message: 'Soil moisture approaching minimum threshold', time: '8m ago' },
     ],
-    recommendations: ['💧 Reduce irrigation — grapes prefer drier conditions', '🌡️ Maintain cool nights for color development', '✅ Veraison stage on schedule'],
+    recommendations: ['💧 Reduce irrigation — grapes prefer drier conditions', '🌡️ Maintain cool nights for color development', '🟢 Veraison stage on schedule'],
     waterSaved: '78 L',
     yieldForecast: '1.9 t/acre',
     nextIrrigation: '4h 20m',
@@ -177,7 +165,7 @@ const CROPS: Record<string, Crop> = {
     alerts: [
       { id: '1', severity: 'info', message: 'Perfect conditions for fruiting bodies', time: '2m ago' },
     ],
-    recommendations: ['🌡️ Maintain 15-20°C for optimal fruiting', '💨 Ensure high humidity (85-90%)', '✅ Fruiting conditions ideal'],
+    recommendations: ['🌡️ Maintain 15-20°C for optimal fruiting', '💨 Ensure high humidity (85-90%)', '🟢 Fruiting conditions ideal'],
     waterSaved: '210 L',
     yieldForecast: '8.5 kg/m²',
     nextIrrigation: '30m',
@@ -202,9 +190,9 @@ const IRRIGATION_ZONES_DATA: Record<string, ZoneWithData> = {
 };
 
 export default function Dashboard() {
-  // ============================================
+ 
   // CENTRAL STATE MANAGEMENT
-  // ============================================
+ 
   const [selectedCrop, setSelectedCrop] = useState<string>('Tomato');
   const [irrigationZones, setIrrigationZones] = useState<IrrigationZone[]>(IRRIGATION_ZONES);
   const [zoneData, setZoneData] = useState<Record<string, ZoneWithData>>(IRRIGATION_ZONES_DATA);
@@ -233,9 +221,9 @@ export default function Dashboard() {
     [currentCrop.alerts, dismissedAlerts]
   );
 
-  // ============================================
+ 
   // UNIFIED CROP CHANGE HANDLER
-  // ============================================
+ 
   const handleCropChange = useCallback((cropName: string) => {
     setSelectedCrop(cropName);
     setDismissedAlerts([]); // Reset dismissed alerts
@@ -244,9 +232,9 @@ export default function Dashboard() {
     toast.success(`Switched to ${cropName} 🌱`);
   }, []);
 
-  // ============================================
+ 
   // REAL-TIME METRICS UPDATE (3 seconds)
-  // ============================================
+ 
   useEffect(() => {
     if (!isLiveMode) return;
 
@@ -260,9 +248,9 @@ export default function Dashboard() {
     };
   }, [isLiveMode, updateSpeed]);
 
-  // ============================================
+ 
   // CHART.JS INITIALIZATION & CLEANUP
-  // ============================================
+ 
   useEffect(() => {
     if (!canvasRef.current) return;
 
@@ -360,9 +348,9 @@ export default function Dashboard() {
     };
   }, [selectedCrop, currentCrop]);
 
-  // ============================================
+ 
   // ZONE DATA UPDATES (4 seconds)
-  // ============================================
+ 
   useEffect(() => {
     if (!isLiveMode) return;
 
@@ -389,9 +377,9 @@ export default function Dashboard() {
     };
   }, [isLiveMode, updateSpeed]);
 
-  // ============================================
+ 
   // ZONE TOGGLE HANDLER
-  // ============================================
+ 
   const handleZoneToggle = useCallback((zoneId: string) => {
     setIrrigationZones(zones =>
       zones.map(z => {
@@ -410,17 +398,17 @@ export default function Dashboard() {
     setSelectedZone(zoneId);
   }, []);
 
-  // ============================================
+ 
   // ALERT DISMISSAL
-  // ============================================
+ 
   const handleDismissAlert = useCallback((alertId: string) => {
     setDismissedAlerts(prev => [...prev, alertId]);
     toast.info('Alert dismissed');
   }, []);
 
-  // ============================================
+ 
   // HELPER FUNCTIONS
-  // ============================================
+ 
   const getAlertColor = (severity: string) => {
     switch (severity) {
       case 'critical':
@@ -447,17 +435,17 @@ export default function Dashboard() {
     }
   };
 
-  // ============================================
+ 
   // RENDER
-  // ============================================
+ 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
       {/* Header */}
       <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-200/50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-500 to-green-600 flex items-center justify-center">
-              <Leaf className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 rounded-lg  flex items-center justify-center">
+              <Leaf className="w-6 h-6 " />
             </div>
             <div>
               <h1 className="text-2xl font-bold text-slate-900">AgriConnect</h1>
@@ -572,8 +560,8 @@ export default function Dashboard() {
         {/* Zone Map & Controls */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
-            <section className="bg-white rounded-xl border border-slate-200 p-6">
-              <h2 className="text-sm font-semibold text-slate-600 mb-4 uppercase tracking-wide">Farm Zone Map</h2>
+            <section className="bg-white rounded-xl border border-slate-200 p-4">
+              <h2 className="text-xs font-semibold text-slate-500 mb-3 uppercase tracking-wider">Farm Zone Map</h2>
               <ZoneMap
                 zones={Object.values(zoneData)}
                 onZoneToggle={handleZoneToggle}
@@ -743,7 +731,7 @@ export default function Dashboard() {
       {/* Footer */}
       <footer className="border-t border-slate-200 bg-slate-50 py-8 mt-16">
         <div className="container mx-auto px-4 text-center text-sm text-slate-600">
-          <p>AgriConnect v3.0 — Precision Agriculture Dashboard for SenzAgro</p>
+          <p>AgriConnect — Precision Agriculture Dashboard</p>
           <p className="mt-2 text-xs text-slate-500">Real-time sensor simulation • Crop-specific thresholds • AI-powered recommendations</p>
         </div>
       </footer>
